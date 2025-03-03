@@ -11,9 +11,13 @@ environment:
 
 dependencies:
   en_file_uploader:
-    path: ../en_file_uploader
+    git:
+      url: https://github.com/pnm1133/file_uploader.git
+      path: en_file_uploader
   file_uploader_utils:
-    path: ../tools/file_uploader_utils
+    git:
+      url: https://github.com/pnm1133/file_uploader.git
+      path: tools/file_uploader_utils
   flutter:
     sdk: flutter
   mobkit_dashed_border: ^0.0.6
