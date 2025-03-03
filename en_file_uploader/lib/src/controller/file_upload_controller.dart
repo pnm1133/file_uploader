@@ -1,10 +1,11 @@
 import 'dart:math' as math;
-
 import 'package:en_file_uploader/en_file_uploader.dart';
-
+import 'package:en_file_uploader/src/handler/preload_upload_handler.dart';
+import '../utils/gen_id.dart';
 part '_chunked_file_upload_controller.dart';
 part '_file_upload_controller.dart';
 part '_restorable_chunked_file_upload_controller.dart';
+part '_preload_upload_controller.dart';
 
 /// ## How to use
 /// Create a [FileUploadController] by passing a concrete implementation of
@@ -62,24 +63,40 @@ abstract class FileUploadController {
   factory FileUploadController(
     IFileUploadHandler handler, {
     FileUploaderLogger? logger,
+    bool preUploaded = false,
   }) {
-    if (handler is FileUploadHandler) {
-      return _FileUploadController(handler: handler, logger: logger);
-    }
-    if (handler is ChunkedFileUploadHandler) {
-      return _ChunkedFileUploadController(handler: handler, logger: logger);
-    }
-    if (handler is RestorableChunkedFileUploadHandler) {
-      return _RestorableChunkedFileUploadController(
-        handler: handler,
-        logger: logger,
-      );
-    }
+    final controller = handler is FileUploadHandler
+        ? _FileUploadController(
+            handler: handler,
+            logger: logger,
+          )
+        : handler is ChunkedFileUploadHandler
+            ? _ChunkedFileUploadController(
+                handler: handler,
+                logger: logger,
+              )
+            : handler is RestorableChunkedFileUploadHandler
+                ? _RestorableChunkedFileUploadController(
+                    handler: handler,
+                    logger: logger,
+                  )
+                : handler is PreloadFileUploadHandler
+                    ? PreLoadFileUploadController(
+                        handler: handler,
+                        logger: logger,
+                      )
+                    : throw UnexpectedHandlerException(handler: handler);
 
-    throw UnexpectedHandlerException(handler: handler);
+    // Đánh dấu file là đã upload nếu preUploaded = true
+    if (preUploaded) {
+      controller._setUploaded();
+    }
+    return controller;
   }
 
   FileUploadController._();
+
+  XFile get file;
 
   bool _uploaded = false;
 
@@ -155,12 +172,4 @@ Future<void> _chunksIterator(
   );
 
   return;
-}
-
-/// now + a random int
-String _generateUniqueId() {
-  final random = math.Random();
-  final timestamp = DateTime.now().millisecondsSinceEpoch;
-  final randomValue = random.nextInt(100000);
-  return '$timestamp$randomValue';
 }

@@ -6,5 +6,6 @@ sdkPath: .fvm/flutter_sdk
 packages:
   - "en_file_uploader"
   - "flutter_file_uploader"
+  - "flutter_ui_uploader"
   - "plugins/*"
   - "tools/*"

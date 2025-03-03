@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   en_file_uploader: "^2.0.0"
+  path_provider: ^2.0.2
+  http: ^1.3.0
 
 dev_dependencies:
   test: ^1.25.2

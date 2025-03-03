@@ -11,6 +11,8 @@ class _ChunkedFileUploadController extends FileUploadController {
   final ChunkedFileUploadHandler _handler;
   final FileUploaderLogger? _logger;
 
+  XFile get file => _handler.file;
+
   @override
   Future<FileUploadResult> upload({
     ProgressCallback? onProgress,
@@ -42,7 +44,7 @@ class _ChunkedFileUploadController extends FileUploadController {
 
     return FileUploadResult(
       file: _handler.file,
-      id: _generateUniqueId(),
+      id: generateUniqueId(),
     );
   }
 
@@ -77,7 +79,7 @@ class _ChunkedFileUploadController extends FileUploadController {
 
     return FileUploadResult(
       file: _handler.file,
-      id: _generateUniqueId(),
+      id: generateUniqueId(),
     );
   }
 }

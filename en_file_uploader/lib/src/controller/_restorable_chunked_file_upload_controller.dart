@@ -12,6 +12,8 @@ class _RestorableChunkedFileUploadController extends FileUploadController {
   final FileUploaderLogger? _logger;
   FileUploadPresentationResponse? _presentationResponse;
 
+  XFile get file => _handler.file;
+
   @override
   Future<FileUploadResult> upload({
     ProgressCallback? onProgress,
