@@ -10,7 +10,10 @@ environment:
 
 dependencies:
   dio: ">=4.0.0 <6.0.0"
-  en_file_uploader: "^2.0.0"
+  en_file_uploader:
+    git:
+      url: https://github.com/pnm1133/file_uploader.git
+      path: en_file_uploader
   file_uploader_socket_interfaces: "^1.2.2"
 
 dev_dependencies:
